@@ -22,6 +22,7 @@ function Products() {
       .catch(res => setLoading(false))
   }, [chosenCategory])
 
+console.log("products",products);
 
   useEffect(() => {
 
@@ -53,6 +54,12 @@ function Products() {
             ))
             }
           </div>
+          {/* filtering section */}
+
+          <div>
+
+          </div>
+
           {/* {products Card section} */}
           <div className="flex flex-wrap my-10 px-3">
             {products
