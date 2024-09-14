@@ -5,7 +5,7 @@ const Chip = ({data, onClick, isChosen}) => {
   
   return (
     <div>
-        <h1 onClick={onClick} className={`${isChosen ? "bg-sky-500 text-white" : "bg-white text-black"} cursor-pointer shadow-sm text-xl border  border-gray-300 mx-1 py-1 px-3 my-1`}>{data}</h1>
+        <h1 onClick={onClick} className={`${isChosen ? "bg-sky-500 text-white" : "bg-white text-black"} cursor-pointer shadow-sm text-xl sm:text-base md:text-lg border  border-gray-300 mx-1 py-1 px-3 my-1 rounded-md transition-all hover:shadow-sky-400`}>{data}</h1>
     </div>
   )
 }

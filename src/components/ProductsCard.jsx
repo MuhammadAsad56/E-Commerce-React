@@ -10,7 +10,7 @@ const ProductsCard = ({ data, onclick, isCartAdded }) => {
 
   return (
     <>
-      <div className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-md hover:shadow-slate-800 transition-all">
+      <div className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-md hover:shadow-sky-400">
         <Link to={`/products/${id}`}>
           <a className="block relative h-48 rounded overflow-hidden">
             <img
