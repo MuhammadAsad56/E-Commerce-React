@@ -1,0 +1,28 @@
+@keyframes pulseInfinite {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .pulse-infinite {
+    animation: pulseInfinite 1s infinite;
+  }
+  .sale{
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+  }
+  .shopping-para{
+    color: transparent;
+    background: #666666;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    text-shadow: 0px 3px 3px rgba(255,255,255,0.5);
+    }

@@ -3,13 +3,11 @@ import "./heading.css"
 import { Link } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { auth } from "../utils/firebase"
-import { CartItems } from '../context/AuthContext'
+import { CartItems, HeaderLinksContext } from '../context/AuthContext'
 
 const Header = ({ userAuthenticated }) => {
-  const [borderbottom, setBorderBottom] = useState("home")
-  const {cartItems, setCartItems } = useContext(CartItems)
-  const [showCartProduct , setShowCartProduct] = useState(false)
-
+  const { cartItems, setCartItems } = useContext(CartItems)
+  const { headerLinks, setHeaderLinks } = useContext(HeaderLinksContext)
 
   const handlleSignOut = () => {
     signOut(auth)
@@ -18,12 +16,9 @@ const Header = ({ userAuthenticated }) => {
   }
 
   const handleShowProduct = () => {
-    setShowCartProduct(!showCartProduct)
-    setBorderBottom("cartitems")
+    setHeaderLinks("/cartitems")
   }
-
-  const checkCardItemsLink = showCartProduct ? "/products" : "/cartitems"
-
+  
   return (
     <>
       <header className="text-gray-600 body-font bg-slate-50">
@@ -32,19 +27,21 @@ const Header = ({ userAuthenticated }) => {
             <h2 className="ml-3 text-2xl heading">Shopping Bazar</h2>
           </a>
           <nav className="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
-            <Link onClick={() => setBorderBottom("home")} to={"/"} className={`mr-5 text-gray-800 ${borderbottom == "home" && "border-b pb-2 text-lg border-b-red-400"}`}>Home</Link>
-            <Link onClick={() => setBorderBottom("products")} to={"/products"} className={`mr-5 text-gray-800 ${borderbottom == "products" && "border-b pb-2 text-lg border-b-red-400"}`}>Products</Link>
-            {/* <div className='cursor-pointer  text-gray-700'> */}
-              <Link onClick={handleShowProduct} to={checkCardItemsLink} className={` cursor-pointer  text-gray-800 ${borderbottom == "cartitems" && "border-b pb-2 text-lg border-b-red-400"}`}>
-               {showCartProduct ? "Show All product" : 
-                (
+            {headerLinks == "/home" ? ""
+              :
+              (
                 <>
-                Cart Items <sup>{cartItems.length}</sup>
+                  <Link onClick={() => setHeaderLinks("/home")} to={"/"} className={`mr-5 text-gray-800 ${headerLinks == "/home" && "border-b pb-2 text-lg border-b-red-400"}`}>Home</Link>
+
+                  <Link onClick={() => setHeaderLinks("/products")} to={"/products"} className={`mr-5 text-gray-800 ${headerLinks == "/products" && "border-b pb-2 text-lg border-b-red-400"}`}>Products</Link>
+
+                  <Link onClick={handleShowProduct} to="/cartitems" className={` cursor-pointer  text-gray-800 ${headerLinks == "/cartitems" && "border-b pb-2 text-lg border-b-red-400"}`}>
+                          Cart Items <sup>{cartItems.length}</sup>
+                   
+                  </Link>
                 </>
-                )
-                }
-                </Link>
-            {/* </div> */}
+              )
+            }
           </nav>
           {userAuthenticated ?
             <div className='flex items-center gap-5'>

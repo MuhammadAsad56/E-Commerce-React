@@ -7,11 +7,12 @@ import ProductDetail from './pages/ProductDetail'
 import Header from './components/Header'
 import SignUp from './pages/SignUp'
 import SignIn from './pages/SignIn'
-import { AuthContextProvider, CardAddedProvider, CartItemsProvider } from './context/AuthContext'
+import { AuthContextProvider, CardAddedProvider, CartItemsProvider, HeaderLinksContextProvider } from './context/AuthContext'
 import { useEffect, useState } from 'react'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from './utils/firebase'
 import CartItemSec from './pages/CartItemSec'
+import { CartProductContextProvider } from './context/AuthContext'
 
 function App() {
   const [userAuthenticated, setUserAuthenticated] = useState(false)
@@ -30,6 +31,8 @@ function App() {
     <AuthContextProvider>
       <CartItemsProvider>
         <CardAddedProvider>
+          <HeaderLinksContextProvider>
+            <CartProductContextProvider>
     <BrowserRouter>
     <Header userAuthenticated={userAuthenticated}/>
     <Routes>
@@ -43,6 +46,9 @@ function App() {
        <Route path='/cartitems' element={<CartItemSec/>}/>
     </Routes>
     </BrowserRouter>
+
+            </CartProductContextProvider>
+          </HeaderLinksContextProvider>
         </CardAddedProvider>
       </CartItemsProvider>
     </AuthContextProvider>

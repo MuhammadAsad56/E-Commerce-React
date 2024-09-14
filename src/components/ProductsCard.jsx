@@ -1,14 +1,16 @@
 import { Link } from 'react-router-dom'
 import { CardAdded } from '../context/AuthContext'
 import { useContext } from 'react'
+import { HeaderLinksContext } from '../context/AuthContext'
 
 const ProductsCard = ({ data, onclick, isCartAdded }) => {
   const { brand, category, description, images, id,title } = data
   const {isCardAdded, setIsCardAdded}  = useContext(CardAdded)
+  const { headerLinks, setHeaderLinks } = useContext(HeaderLinksContext)
 
   return (
     <>
-      <div className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-md hover:shadow-slate-600 transition-all">
+      <div className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-md hover:shadow-slate-800 transition-all">
         <Link to={`/products/${id}`}>
           <a className="block relative h-48 rounded overflow-hidden">
             <img
@@ -30,7 +32,10 @@ const ProductsCard = ({ data, onclick, isCartAdded }) => {
           <p className="mt-1">$16.00</p>
           </div>
           </Link>
-          <button onClick={onclick} className='px-2 my-2 bg-blue-500 text-white'>{isCartAdded ? "Add to cart" : "Added"}</button>
+          <button onClick={onclick} className='px-2 my-2 bg-sky-500 text-white'>{isCartAdded ? "Add to cart" : "Added"}</button>
+          {headerLinks == "/cartitems" && (
+            <button  className='px-3 my-2 ml-3 bg-sky-500 text-white'>Remove from cart</button>
+          )}
     </div>
     </>
   )

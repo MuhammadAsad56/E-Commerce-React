@@ -31,3 +31,19 @@ export const CardAdded = createContext()
         <CardAdded.Provider value={{isCardAdded, setIsCardAdded}}>{children}</CardAdded.Provider>
     )
 }
+export const HeaderLinksContext = createContext()
+
+ export function HeaderLinksContextProvider({children}){
+    const [headerLinks, setHeaderLinks] = useState("/home")
+    return(
+        <HeaderLinksContext.Provider value={{headerLinks, setHeaderLinks}}>{children}</HeaderLinksContext.Provider>
+    )
+}
+export const CartProductContext = createContext()
+
+ export function CartProductContextProvider({children}){
+    const [showCartProduct, setShowCartProduct] = useState(false)
+    return(
+        <CartProductContext.Provider value={{showCartProduct, setShowCartProduct}}>{children}</CartProductContext.Provider>
+    )
+}
