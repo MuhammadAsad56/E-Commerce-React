@@ -12,7 +12,7 @@ const Home = () => {
 
   return (
     <>
-      <section className="text-gray-600 bg-slate-100 body-font">
+      <section className="h-screen w-screen text-gray-600 bg-slate-100 body-font flex">
         <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
             <div className="lg:max-w-lg lg:w-full md:w-1/2 w-full mb-10 md:mb-0">
             <img
