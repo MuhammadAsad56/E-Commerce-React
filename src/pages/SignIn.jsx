@@ -46,9 +46,9 @@ const SignIn = () => {
 
   return (
     <>
-    <div className='w-full h-screen bg-gray-100 flex items-center justify-center'>
-    <div className='flex flex-col mb-14  rounded-lg bg-purple-400 w-1/3 h-fit'>
-    <h2 className='text-center text-3xl my-10 text-white'>Login</h2>
+    <div className='w-full h-screen bg-gray-100 flex items-center justify-center p-4'>
+    <div className='flex flex-col items-center justify-center rounded-lg bg-purple-400 w-full max-w-xs h-fit p-6 md:p-8 shadow-lg'>
+    <h2 className='text-center text-xl md:text-3xl my-4 md:my-6 text-white font-semibold'>Login</h2>
     <div className='flex items-center justify-center'>
     <FormSec onClick={handleSignInGoogle} errMessage={errMessage} onclick={handleSignIn} text={"Login"}/>  
     </div>

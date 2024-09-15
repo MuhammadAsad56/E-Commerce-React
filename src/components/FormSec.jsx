@@ -63,8 +63,8 @@ const FormSec = ({namefield,text, onclick, errMessage , onClick}) => {
     <p className='text-xl text-center text-red-600 '>{errMessage}</p>
     <Form.Item
       wrapperCol={{
-        offset: 9,
-        span: 16,
+        offset: 8,
+        span: 16
       }}
     >
       <Button onClick={onclick} className='bg-purple-400 text-white' htmlType="submit">
@@ -74,7 +74,7 @@ const FormSec = ({namefield,text, onclick, errMessage , onClick}) => {
     <h2 className='text-2xl text-white font-semibold mb-5 text-center'>or</h2>
     <Form.Item
       wrapperCol={{
-        offset: 6,
+        offset: 5,
         span: 16,
       }}
     >
