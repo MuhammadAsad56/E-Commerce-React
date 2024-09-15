@@ -3,9 +3,11 @@ import "./heading.css"
 import { Link } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { auth } from "../utils/firebase"
+import { FaUserCircle } from "react-icons/fa";
 import { CartItems, HeaderLinksContext } from '../context/AuthContext'
 
 const Header = ({ userAuthenticated }) => {
+
   const { cartItems, setCartItems } = useContext(CartItems)
   const { headerLinks, setHeaderLinks } = useContext(HeaderLinksContext)
 
@@ -24,70 +26,54 @@ const Header = ({ userAuthenticated }) => {
       <header className="text-gray-600 body-font bg-slate-50">
         <div className="flex flex-wrap p-5 flex-col md:flex-row items-center">
           <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-            <h2 className="ml-3 text-xl sm:text-2xl heading">Shopping Bazar</h2>
+            <h2 className="ml-3 text-2xl heading">Shopping Bazar</h2>
           </a>
           <nav className="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
-            {headerLinks === "/home" ? "" : (
+            {headerLinks == "/home" ? ""
+              :
+              (
+                <>
+                  <Link onClick={() => setHeaderLinks("/home")} to={"/"} className={`mr-5 text-gray-800 ${headerLinks == "/home" && "border-b pb-2 text-lg border-b-red-400"}`}>Home</Link>
+
+                  <Link onClick={() => setHeaderLinks("/products")} to={"/products"} className={`mr-5 text-gray-800 ${headerLinks == "/products" && "border-b pb-2 text-lg border-b-red-400"}`}>Products</Link>
+
+                  <Link onClick={handleShowProduct} to="/cartitems" className={` cursor-pointer  text-gray-800 ${headerLinks == "/cartitems" && "border-b pb-2 text-lg border-b-red-400"}`}>
+                    Cart Items <sup>{cartItems.length}</sup>
+
+                  </Link>
+                </>
+              )
+            }
+          </nav>
+          {userAuthenticated ?
+            <div className='flex items-center flex-wrap mr-3 justify-center gap-3'>
+              <div className='flex gap-3'>
+                {
+                  userAuthenticated.photo ?
+                    <img className='h-8 w-auto rounded-full' src={userAuthenticated.photo} alt="#" />
+                    :
+                    <FaUserCircle className='h-8 w-auto' />
+                }
+              </div>
+              <div>
+                <button onClick={handlleSignOut} className='btn px-2 py-1 bg-gray-300 rounded-sm hover:bg-gray-200'>Logout</button>
+              </div>
+            </div>
+            : (
               <>
-                <Link
-                  onClick={() => setHeaderLinks("/home")}
-                  to={"/"}
-                  className={`mr-5 text-gray-800 ${headerLinks === "/home" && "border-b pb-2 text-lg border-b-red-400"
-                    }`}
-                >
-                  Home
+                <Link to={"/signup"}>
+                  <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 mr-2 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
+                    Sign Up
+                  </button>
                 </Link>
-
-                <Link
-                  onClick={() => setHeaderLinks("/products")}
-                  to={"/products"}
-                  className={`mr-5 text-gray-800 ${headerLinks === "/products" && "border-b pb-2 text-lg border-b-red-400"
-                    }`}
-                >
-                  Products
-                </Link>
-
-                <Link
-                  onClick={handleShowProduct}
-                  to="/cartitems"
-                  className={`cursor-pointer text-gray-800 ${headerLinks === "/cartitems" &&
-                    "border-b pb-2 text-lg border-b-red-400"
-                    }`}
-                >
-                  Cart Items <sup>{cartItems.length}</sup>
+                <Link to={"signin"}>
+                  <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 mr-2 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
+                    Sign In
+                  </button>
                 </Link>
               </>
-            )}
-          </nav>
-          {userAuthenticated ? (
-            <div className="flex items-center gap-2 sm:gap-5">
-              <div className="flex gap-2 sm:gap-3 items-center">
-                <img className="h-8 w-auto rounded-full" src={userAuthenticated.photo} alt="" />
-                <h2 className="text-center text-sm sm:text-xl text-blue-500">
-                  {userAuthenticated.email}
-                </h2>
-              </div>
-              <button
-                onClick={handlleSignOut}
-                className="btn px-2 py-1 bg-gray-300 rounded-sm hover:bg-gray-200 text-xs sm:text-sm"
-              >
-                Logout
-              </button>
-            </div>
-          ) : (
-            <>
-              <Link to={"/signup"}>
-                <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-2 sm:px-3 mr-2 focus:outline-none hover:bg-gray-200 rounded text-xs sm:text-base mt-4 md:mt-0">
-                  Sign Up
-                </button>
-              </Link>
-              <Link to={"/signin"}>
-                <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-2 sm:px-3 focus:outline-none hover:bg-gray-200 rounded text-xs sm:text-base mt-4 md:mt-0">
-                  Sign In
-                </button>
-              </Link>
-            </>
-          )}
+            )
+          }
         </div>
       </header>
 

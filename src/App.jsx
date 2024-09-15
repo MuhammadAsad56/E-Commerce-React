@@ -46,7 +46,6 @@ function App() {
        <Route path='/cartitems' element={<CartItemSec/>}/>
     </Routes>
     </BrowserRouter>
-
             </CartProductContextProvider>
           </HeaderLinksContextProvider>
         </CardAddedProvider>
