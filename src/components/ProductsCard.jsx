@@ -3,7 +3,7 @@ import { CardAdded } from '../context/AuthContext'
 import { useContext } from 'react'
 import { HeaderLinksContext } from '../context/AuthContext'
 
-const ProductsCard = ({ data, onclick, isCartAdded }) => {
+const ProductsCard = ({ data, onclick, isCartAdded , handleRemoveCart}) => {
   const { brand, category, description, images, id,title } = data
   const {isCardAdded, setIsCardAdded}  = useContext(CardAdded)
   const { headerLinks, setHeaderLinks } = useContext(HeaderLinksContext)
@@ -34,7 +34,7 @@ const ProductsCard = ({ data, onclick, isCartAdded }) => {
           </Link>
           <button onClick={onclick} className='px-2 my-2 bg-sky-500 text-white'>{isCartAdded ? "Add to cart" : "Added"}</button>
           {headerLinks == "/cartitems" && (
-            <button  className='px-3 my-2 ml-3 bg-sky-500 text-white'>Remove from cart</button>
+            <button onClick={handleRemoveCart}  className='px-3 my-2 ml-3 bg-sky-500 text-white'>Remove from cart</button>
           )}
     </div>
     </>

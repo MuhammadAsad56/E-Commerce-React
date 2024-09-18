@@ -50,7 +50,7 @@ const SignIn = () => {
     <div className='flex flex-col items-center justify-center rounded-lg bg-purple-400 w-full max-w-xs h-fit p-6 md:p-8 shadow-lg'>
     <h2 className='text-center text-xl md:text-3xl my-4 md:my-6 text-white font-semibold'>Login</h2>
     <div className='flex items-center justify-center'>
-    <FormSec onClick={handleSignInGoogle} errMessage={errMessage} onclick={handleSignIn} text={"Login"}/>  
+    <FormSec num={9} onClick={handleSignInGoogle} errMessage={errMessage} onclick={handleSignIn} text={"Login"}/>  
     </div>
     </div>
     </div>

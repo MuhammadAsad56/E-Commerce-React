@@ -2,10 +2,24 @@ import React from 'react'
 import { useContext } from 'react'
 import { CartItems } from '../context/AuthContext'
 import ProductsCard from '../components/ProductsCard'
+import {db ,doc, deleteDoc} from "../utils/firebase";
+
 
 
 const CartItemSec = () => {
   const {cartItems, setCartItems} = useContext(CartItems)
+  
+  
+  // const handleRemoveCart = async (id) => {
+  //   let itemId = String(id)
+  //       await deleteDoc(doc(db,'cartitems',itemId))
+  //       .then((res) => {
+  //         setCartItems(cartItems.filter((data) => data.id != id))
+  //       })
+  //       .catch((err) => {
+  //         console.log(err.message)  
+  //       })
+  // };
   
   return (
     <>
@@ -13,7 +27,7 @@ const CartItemSec = () => {
   {
     cartItems.map((data,ind) => {
       return(
-          <ProductsCard  key={ind} data={data}/>
+          <ProductsCard handleRemoveCart={()=>handleRemoveCart(data.id)}  key={ind} data={data}/>
         )
       })
     }
@@ -23,4 +37,3 @@ const CartItemSec = () => {
 }
 
 export default CartItemSec
-

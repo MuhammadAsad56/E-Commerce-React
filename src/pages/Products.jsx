@@ -66,16 +66,16 @@ function Products() {
         setCartItems(items)
     }
       fetchData()
-   } ,[])
+   } ,[cartItems, db])
 
    const handleAddCartItem = useCallback(
     async (item) => {
       if (authenticated) {
         const cartItemsArr = [...cartItems];
-        const isAdded = cartItemsArr.findIndex((data) => data.id === item.id) === -1;
-        if (isAdded) {
-          cartItemsArr.push(item);
-          setCartItems([...cartItemsArr]);
+        const isAdded = cartItemsArr.findIndex((data) => data.id === item.id);
+        if (isAdded == -1) { 
+          cartItemsArr.push(item)
+          setCartItems([...cartItemsArr])
           const ref = await addDoc(collection(db, "cartitems"), item);
         }
       } else {

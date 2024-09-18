@@ -9,7 +9,7 @@ const onFinishFailed = (errorInfo) => {
   console.log('Failed:', errorInfo);
 };
 
-const FormSec = ({namefield,text, onclick, errMessage , onClick}) => {
+const FormSec = ({namefield,text, onclick, errMessage , onClick, num}) => {
   const {authValues, setAuthValues} = useContext(AuthContext)
 
   return ( 
@@ -63,7 +63,7 @@ const FormSec = ({namefield,text, onclick, errMessage , onClick}) => {
     <p className='text-xl text-center text-red-600 '>{errMessage}</p>
     <Form.Item
       wrapperCol={{
-        offset: 8,
+        offset: num,
         span: 16
       }}
     >

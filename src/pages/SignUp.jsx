@@ -72,6 +72,7 @@ const SignUp = () => {
     <div className='flex flex-col items-center justify-center rounded-lg bg-purple-400 w-full max-w-xs h-fit p-6 md:p-8 shadow-lg'>
         <h2 className='text-center text-xl md:text-3xl my-4 md:my-6 text-white font-semibold'>Sign Up</h2>
         <FormSec 
+            num={8}
             onClick={handleSignInGoogle} 
             errMessage={errMessage} 
             onclick={handleSignIn} 
