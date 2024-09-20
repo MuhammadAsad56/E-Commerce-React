@@ -7,18 +7,34 @@ import {db ,doc, deleteDoc} from "../utils/firebase";
 
 
 const CartItemSec = () => {
-  const {cartItems, setCartItems} = useContext(CartItems)
+  const {cartItems, setCartItems , isCartAdded} = useContext(CartItems)
+  
+
+  // const handleRemoveCart = (id) => {
+  //   try {
+  //     const updatedCartItems = cartItems.filter((data) => data.id !== id);
+  //     console.log("Updated CartItems without Firebase:", updatedCartItems);
+  //     setCartItems([...updatedCartItems]);
+  //   } catch (err) {
+  //     console.error("Error caught:", err.message);
+  //   }
+  // };
   
   
   // const handleRemoveCart = async (id) => {
-  //   let itemId = String(id)
-  //       await deleteDoc(doc(db,'cartitems',itemId))
-  //       .then((res) => {
-  //         setCartItems(cartItems.filter((data) => data.id != id))
-  //       })
-  //       .catch((err) => {
-  //         console.log(err.message)  
-  //       })
+  //   try {
+  //     // Ensure ID is a string
+  //     const docId = String(id); // Convert to string
+      
+  //     await deleteDoc(doc(db, 'cartitems', docId))
+  //     .then(res => {
+  //       const updatedCartItems = cartItems.filter((data) => data.id !== id);
+  //       setCartItems(updatedCartItems);
+  //     }).catch(err => console.log(err))
+  
+  //   } catch (err) {
+  //     console.error("Error caught during Firebase delete:", err.message);
+  //   }
   // };
   
   return (
@@ -27,7 +43,7 @@ const CartItemSec = () => {
   {
     cartItems.map((data,ind) => {
       return(
-          <ProductsCard handleRemoveCart={()=>handleRemoveCart(data.id)}  key={ind} data={data}/>
+          <ProductsCard isCartAdded={isCartAdded}  key={ind} data={data}/>
         )
       })
     }

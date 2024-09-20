@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom'
-import { CardAdded } from '../context/AuthContext'
+// import { CardAdded } from '../context/AuthContext'
 import { useContext } from 'react'
 import { HeaderLinksContext } from '../context/AuthContext'
 
-const ProductsCard = ({ data, onclick, isCartAdded , handleRemoveCart}) => {
+const ProductsCard = ({ data, onclick, isCartAdded }) => {
   const { brand, category, description, images, id,title } = data
-  const {isCardAdded, setIsCardAdded}  = useContext(CardAdded)
+  // const {isCardAdded, setIsCardAdded}  = useContext(CardAdded)
   const { headerLinks, setHeaderLinks } = useContext(HeaderLinksContext)
 
   return (
@@ -26,15 +26,12 @@ const ProductsCard = ({ data, onclick, isCartAdded , handleRemoveCart}) => {
             <h2 className="text-gray-900 title-font text-lg font-medium">
               {title}
             </h2>
-            {/* <h2 className="text-gray-900 title-font text-lg font-medium">
-              {brand}
-              </h2> */}
           <p className="mt-1">$16.00</p>
           </div>
           </Link>
-          <button onClick={onclick} className='px-2 my-2 bg-sky-500 text-white'>{isCartAdded ? "Add to cart" : "Added"}</button>
+          <button onClick={onclick} className='px-2 my-2 bg-sky-500 text-white'>{isCartAdded(data) ? `Added`: "Add to Cart"}</button>
           {headerLinks == "/cartitems" && (
-            <button onClick={handleRemoveCart}  className='px-3 my-2 ml-3 bg-sky-500 text-white'>Remove from cart</button>
+            <button className='px-3 my-2 ml-3 bg-sky-500 text-white'>Remove from cart</button>
           )}
     </div>
     </>

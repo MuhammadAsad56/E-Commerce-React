@@ -4,8 +4,8 @@ import Chip from "../components/Chip"
 import { Link, useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 import Header from "../components/Header";
-import { CartItems , CardAdded} from "../context/AuthContext";
-import { auth, db } from "../utils/firebase";
+import { CartItems } from "../context/AuthContext";
+import { db } from "../utils/firebase";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 
 function Products() {
@@ -14,19 +14,9 @@ function Products() {
   const [products, setProducts] = useState([])
   const [category, setCategory] = useState([])
   const [chosenCategory, setChosenCategory] = useState("All")
-  const {cartItems, setCartItems} = useContext(CartItems)
-  const [authenticated, setAuthenticated] = useState(false)
+  const {cartItems, setCartItems, handleAddCartItem, isCartAdded} = useContext(CartItems)
+
   const navigate = useNavigate()
-  
-  useEffect(()=>{
-      auth.onAuthStateChanged(user => {
-        if(user){
-          setAuthenticated(true)
-        }else{
-          setAuthenticated(false)
-        }
-      })
-    },[])
 
   useEffect(() => {
     const url = chosenCategory == "All" ? 'https://dummyjson.com/products' : `https://dummyjson.com/products/category/${chosenCategory}`
@@ -66,25 +56,7 @@ function Products() {
         setCartItems(items)
     }
       fetchData()
-   } ,[cartItems, db])
-
-   const handleAddCartItem = useCallback(
-    async (item) => {
-      if (authenticated) {
-        const cartItemsArr = [...cartItems];
-        const isAdded = cartItemsArr.findIndex((data) => data.id === item.id);
-        if (isAdded == -1) { 
-          cartItemsArr.push(item)
-          setCartItems([...cartItemsArr])
-          const ref = await addDoc(collection(db, "cartitems"), item);
-        }
-      } else {
-        alert("Please sign up your account");
-        navigate("/signup");
-      }
-    },
-    [authenticated, cartItems, setCartItems, navigate, db]
-  )
+   } ,[])
   
   return (
     <>
@@ -111,9 +83,9 @@ function Products() {
             {products
             .sort((a, b) => a.title.localeCompare(b.title))
             .map((data, ind) => {
-              const isCartAdded = cartItems.findIndex(item => item.id == data.id) == -1
               return (
-                <ProductsCard isCartAdded={isCartAdded} onclick={()=> handleAddCartItem(data)} key={ind} data={data} />
+                <ProductsCard onclick={()=> handleAddCartItem(data)}
+                isCartAdded={isCartAdded} key={ind} data={data} />
               )
             })
             }

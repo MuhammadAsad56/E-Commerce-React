@@ -4,14 +4,14 @@ import { CartItems } from '../context/AuthContext'
 import Loading from '../components/Loading'
 import { auth } from '../utils/firebase'
 
-
 const ProductDetail = () => {
     const [product , setProduct] = useState("")
     const [loading , setLoading] = useState(false)
     const [authenticated, setAuthenticated] = useState(false)
-    const {cartItems, setCartItems} = useContext(CartItems)
+    const {cartItems, setCartItems, isCartAdded, handleAddCartItem} = useContext(CartItems)
     const {id} = useParams()
     const navigate = useNavigate()
+
 
     useEffect(()=> {
       setLoading(true)
@@ -122,8 +122,8 @@ const ProductDetail = () => {
                <span className="title-font font-medium text-2xl text-gray-900">
                  {price}
                </span>
-               <button onClick={()=>handleAddCart(product)} className="flex ml-auto text-white bg-sky-500 border-0 py-2 px-6 focus:outline-none hover:bg-sky-600 rounded">
-                 Add to cart
+               <button onClick={()=>handleAddCartItem(product)} className="flex ml-auto text-white bg-sky-500 border-0 py-2 px-6 focus:outline-none hover:bg-sky-600 rounded">
+                {isCartAdded(product) ? `Added` : "Add to Cart"}
                </button>
              </div>
            </div>

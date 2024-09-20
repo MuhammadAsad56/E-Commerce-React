@@ -38,8 +38,7 @@ const Header = ({ userAuthenticated }) => {
                   <Link onClick={() => setHeaderLinks("/products")} to={"/products"} className={`mr-5 text-gray-800 ${headerLinks == "/products" && "border-b pb-2 text-lg border-b-red-400"}`}>Products</Link>
 
                   <Link onClick={handleShowProduct} to={"cartitems"} className={` cursor-pointer  text-gray-800 ${headerLinks == "/cartitems" && "border-b pb-2 text-lg border-b-red-400"}`}>
-                    Cart Items <sup>{cartItems.length}</sup>
-
+                  Cart Items <sup>{cartItems.length}</sup>
                   </Link>
                 </>
               )
