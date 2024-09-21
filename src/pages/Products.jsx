@@ -9,7 +9,7 @@ import { db } from "../utils/firebase";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 
 function Products() {
-  
+
   const [loading, setLoading] = useState(true)
   const [products, setProducts] = useState([])
   const [category, setCategory] = useState([])
@@ -48,11 +48,12 @@ function Products() {
       let items = [];
         res.forEach((doc) => {
           let obj = {
+            ...doc.data(),
             id: doc.id,
-            ...doc.data()
           }  
           items.push(obj)
         })
+        
         setCartItems(items)
     }
       fetchData()

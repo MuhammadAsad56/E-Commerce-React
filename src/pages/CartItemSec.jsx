@@ -1,49 +1,68 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useContext } from 'react'
 import { CartItems } from '../context/AuthContext'
 import ProductsCard from '../components/ProductsCard'
 import {db ,doc, deleteDoc} from "../utils/firebase";
-
-
+import { collection, getDocs } from "firebase/firestore";
 
 const CartItemSec = () => {
-  const {cartItems, setCartItems , isCartAdded} = useContext(CartItems)
-  
+  const {cartItems, setCartItems , isCartAdded,} = useContext(CartItems)
 
-  // const handleRemoveCart = (id) => {
-  //   try {
-  //     const updatedCartItems = cartItems.filter((data) => data.id !== id);
-  //     console.log("Updated CartItems without Firebase:", updatedCartItems);
-  //     setCartItems([...updatedCartItems]);
-  //   } catch (err) {
-  //     console.error("Error caught:", err.message);
-  //   }
-  // };
+  useEffect(() => {
+    async function fetchData(){
+      const reference = collection(db, "cartitems")
+      const res = await getDocs(reference)
+      let items = [];
+        res.forEach((doc) => {
+          let obj = {
+            ...doc.data(),
+            id: doc.id,
+          }  
+          items.push(obj)
+        })
+        
+        setCartItems(items)
+    }
+      fetchData()
+   } ,[])
+
+  const handleRemoveCart = async (id) => {
+    console.log(id);
+    
+    try {    
+      await deleteDoc(doc(db, 'cartitems', id))
+      .then(res => {
+        const updatedCartItems = cartItems.filter((data) => data.id !== id);
+        setCartItems(updatedCartItems);
+      }).catch(err => console.log(err))
   
-  
-  // const handleRemoveCart = async (id) => {
-  //   try {
-  //     // Ensure ID is a string
-  //     const docId = String(id); // Convert to string
-      
-  //     await deleteDoc(doc(db, 'cartitems', docId))
-  //     .then(res => {
-  //       const updatedCartItems = cartItems.filter((data) => data.id !== id);
-  //       setCartItems(updatedCartItems);
-  //     }).catch(err => console.log(err))
-  
-  //   } catch (err) {
-  //     console.error("Error caught during Firebase delete:", err.message);
-  //   }
-  // };
-  
+    } catch (err) {
+      console.error("Error caught during Firebase delete:", err.message);
+    }
+  };
+
   return (
     <>
+    {/* <div className='flex items-center justify-center my-3 gap-5'>
+      <div className='px-6 py-4 border border-gray-300 shadow-md text-center'>
+      <p className='text-xl'>Total Quantity</p>
+      <p className='text-xl'>890</p>
+      </div>
+      <div className='px-6 py-4 border border-gray-300 shadow-md text-center'>
+      <p className='text-xl'>Total Rs</p>
+      <p className='text-xl'>{Math.round({price})}</p>
+      </div>
+      <div className='px-6 py-4 border border-gray-300 shadow-md text-center'>
+      <p className='text-xl'>Total Rs</p>
+      <p className='text-xl'>77889</p>
+      </div>
+
+    </div> */}
     <div className="flex flex-wrap my-10 px-3">
   {
     cartItems.map((data,ind) => {
       return(
-          <ProductsCard isCartAdded={isCartAdded}  key={ind} data={data}/>
+          <ProductsCard handleRemoveCart={()=>handleRemoveCart(data.id)} isCartAdded={isCartAdded}  key={ind} data={data}/>
         )
       })
     }
