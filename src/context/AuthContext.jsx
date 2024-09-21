@@ -36,9 +36,8 @@ export const CartItems = createContext()
 
     const handleAddCartItem = useCallback(
         async (item) => {
-          if (authenticated) {
             const cartItemsArr = [...cartItems];
-            const isAdded = cartItemsArr.findIndex((data) => data.id === item.id);
+            const isAdded = cartItemsArr.findIndex((data) => data.id === item.id)
             console.log("isAdded=>,", isAdded)
 
             if (isAdded == -1) { 
@@ -47,11 +46,6 @@ export const CartItems = createContext()
             }
             setCartItems([...cartItemsArr])
             console.log(cartItemsArr)
-            
-          } else {
-            alert("Please sign up your account");
-            navigate("/signup");
-          }
         },
         [cartItems]
       )

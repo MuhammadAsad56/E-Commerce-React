@@ -49,7 +49,7 @@ function Products() {
         res.forEach((doc) => {
           let obj = {
             ...doc.data(),
-            id: doc.id,
+            dbId : doc.id,
           }  
           items.push(obj)
         })
@@ -86,7 +86,7 @@ function Products() {
             .map((data, ind) => {
               return (
                 <ProductsCard onclick={()=> handleAddCartItem(data)}
-                isCartAdded={isCartAdded} key={ind} data={data} />
+                isCartAdded={()=>isCartAdded(data)} key={ind} data={data} />
               )
             })
             }

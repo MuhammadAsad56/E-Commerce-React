@@ -5,7 +5,6 @@ import { HeaderLinksContext } from '../context/AuthContext'
 
 const ProductsCard = ({ data, onclick, isCartAdded , handleRemoveCart}) => {
   const { brand, category, description, images, id,title } = data
-  // const {isCardAdded, setIsCardAdded}  = useContext(CardAdded)
   const { headerLinks, setHeaderLinks } = useContext(HeaderLinksContext)
 
   return (

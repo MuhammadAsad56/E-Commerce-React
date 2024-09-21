@@ -16,7 +16,7 @@ const CartItemSec = () => {
         res.forEach((doc) => {
           let obj = {
             ...doc.data(),
-            id: doc.id,
+            dbId : doc.id,
           }  
           items.push(obj)
         })
@@ -26,11 +26,11 @@ const CartItemSec = () => {
       fetchData()
    } ,[])
 
-  const handleRemoveCart = async (id) => {
-    console.log(id);
+  const handleRemoveCart = async (dbId,id) => {
+    console.log("dbId=>", dbId, "id=>", id);
     
     try {    
-      await deleteDoc(doc(db, 'cartitems', id))
+      await deleteDoc(doc(db, 'cartitems', dbId))
       .then(res => {
         const updatedCartItems = cartItems.filter((data) => data.id !== id);
         setCartItems(updatedCartItems);
@@ -62,7 +62,7 @@ const CartItemSec = () => {
   {
     cartItems.map((data,ind) => {
       return(
-          <ProductsCard handleRemoveCart={()=>handleRemoveCart(data.id)} isCartAdded={isCartAdded}  key={ind} data={data}/>
+          <ProductsCard handleRemoveCart={()=>handleRemoveCart(data.dbId, data.id)} isCartAdded={isCartAdded}  key={ind} data={data}/>
         )
       })
     }
