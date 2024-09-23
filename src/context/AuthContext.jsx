@@ -117,7 +117,7 @@ export const CartItems = createContext()
     }
 
     return(
-        <CartItems.Provider value={{cartItems, setCartItems, handleAddCartItem, isCartAdded, updateToCart }}>{children}</CartItems.Provider>
+        <CartItems.Provider value={{cartItems, setCartItems, handleAddCartItem, isCartAdded, updateToCart, authenticated }}>{children}</CartItems.Provider>
     )
 }
 

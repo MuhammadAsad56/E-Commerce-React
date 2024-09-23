@@ -1,14 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useContext } from 'react'
 import { CartItems } from '../context/AuthContext'
-import ProductsCard from '../components/ProductsCard'
-import { db, doc, deleteDoc } from "../utils/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { db, doc, deleteDoc, auth } from "../utils/firebase";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import { Image } from 'antd';
 import { CiSquarePlus } from "react-icons/ci";
 import { CiSquareMinus } from "react-icons/ci";
+import CartQtySec from '../components/CartQtySec';
+import CheckOutModal from '../components/CheckOutModal';
+
 const CartItemSec = () => {
-  const { cartItems, setCartItems, isCartAdded, updateToCart } = useContext(CartItems)
+  const { cartItems, setCartItems, isCartAdded, updateToCart , authenticated} = useContext(CartItems)
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -41,30 +44,56 @@ const CartItemSec = () => {
     }
   };
 
+  const totalQty = cartItems.reduce((acc, items) => acc + items.qty, 0)
+
+  let totalRs = cartItems.reduce((acc, items) => acc + items.qty * items.price, 0)
+      totalRs = Math.round(totalRs)
+  const checkoutOrder = async (values) => {
+      const checkoutObj = {
+         ...values,
+         totalQty,
+         totalRs,
+         status: "pending",
+         user: authenticated ? auth.user.uid : "guest",
+         items: cartItems.map(data => `item: ${data.title}, qty: ${data.qty}, price: ${data.price} ` )
+      }
+      const ref = await addDoc(collection(db, "orders"), checkoutObj)
+      .then(res => {
+        const deleteCartPromise = cartItems.map(async data => {
+          const delDocRef = doc(db, "cartitems", data.dbId)
+          await deleteDoc(delDocRef)
+        })
+        })
+        setCartItems([])
+        setIsModalOpen(false)
+  }
+
   return (
     <>
-      {/* <div className='flex items-center justify-center my-3 gap-5'>
-      <div className='px-6 py-4 border border-gray-300 shadow-md text-center'>
-      <p className='text-xl'>Total Quantity</p>
-      <p className='text-xl'>890</p>
-      </div>
-      <div className='px-6 py-4 border border-gray-300 shadow-md text-center'>
-      <p className='text-xl'>Total Rs</p>
-      <p className='text-xl'>{Math.round({price})}</p>
-      </div>
-      <div className='px-6 py-4 border border-gray-300 shadow-md text-center'>
-      <p className='text-xl'>Total Rs</p>
-      <p className='text-xl'>77889</p>
-      </div>
 
-    </div> */}
+      <div className="flex gap-3 my-4 mx-5">
+        <CartQtySec text={totalQty} />
+        <CartQtySec text={`$ ${Math.round(totalRs)}/-`} />
+        <CartQtySec onClick={() => {
+          if(cartItems.length){
+            setIsModalOpen(true)
+          }else{
+            alert("cart list is empty")
+          }
+        }} style={'cursor-pointer'} text={"Proceed to Checkout"}/>
+      </div>
+      <CheckOutModal
+        isModalOpen={isModalOpen}
+        handleCancel={() => setIsModalOpen(false)}
+        handleOk={() => setIsModalOpen(false)}
+        checkoutOrder={checkoutOrder}
+      />
       <div className='flex flex-col flex-wrap my-10'>
         {
           cartItems.map((data, ind) => {
             const { brand, category, description, images, id, title, price, qty, dbId } = data
             return (
-              // <ProductsCard handleRemoveCart={()=>handleRemoveCart(data.dbId, data.id)} isCartAdded={isCartAdded}  key={ind} data={data}/>
-              <div className="flex flex-col sm:flex-row items-center lg:w-3/5 border-b p-5 mx-auto mb-10 border-gray-300 shadow-md gap-4 sm:justify-between">
+              <div key={ind} className="flex flex-col sm:flex-row items-center lg:w-3/5 border-b p-5 mx-auto mb-10 border-gray-300 shadow-md gap-4 sm:justify-between">
                 <Image src={images[0]} width={100} height={100} className="mx-auto sm:mx-0" />
 
                 <div className="flex-grow sm:text-left text-center mt-6 sm:mt-0">
