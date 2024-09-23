@@ -52,7 +52,8 @@ const Header = ({ userAuthenticated }) => {
                     <img className='h-8 w-auto rounded-full' src={userAuthenticated.photo} alt="#" />
                     :
                     <FaUserCircle className='h-8 w-auto' />
-                }
+                    
+                } 
               </div>
               <div>
                 <button onClick={handlleSignOut} className='btn px-2 py-1 bg-gray-300 rounded-sm hover:bg-gray-200'>Logout</button>

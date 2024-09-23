@@ -53,12 +53,11 @@ function Products() {
           }  
           items.push(obj)
         })
-        
         setCartItems(items)
     }
       fetchData()
    } ,[])
-  
+
   return (
     <>
 

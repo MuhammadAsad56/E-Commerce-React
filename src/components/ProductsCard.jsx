@@ -28,7 +28,7 @@ const ProductsCard = ({ data, onclick, isCartAdded , handleRemoveCart}) => {
           <p className="mt-1">$16.00</p>
           </div>
           </Link>
-          <button onClick={onclick} className='px-2 my-2 bg-sky-500 text-white'>{isCartAdded(data) ? `Added`: "Add to Cart"}</button>
+          <button onClick={onclick} className='px-2 my-2 bg-sky-500 text-white'>{isCartAdded(data) ? `Added (${isCartAdded(data).qty})`: "Add to Cart"}</button>
           {headerLinks == "/cartitems" && (
             <button  onClick={handleRemoveCart} className='px-3 my-2 ml-3 bg-sky-500 text-white'>Remove from cart</button>
           )}

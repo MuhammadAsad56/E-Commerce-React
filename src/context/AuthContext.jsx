@@ -3,7 +3,7 @@
 import React, { createContext, useState , useEffect, useCallback} from 'react'
 import { auth } from "../utils/firebase";
 import { db } from "../utils/firebase";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs, updateDoc } from "firebase/firestore";
 
 
 export const AuthContext = createContext()
@@ -34,18 +34,52 @@ export const CartItems = createContext()
         })
       },[])
 
-    const handleAddCartItem = useCallback(
-        async (item) => {
-            const cartItemsArr = [...cartItems];
-            const isAdded = cartItemsArr.findIndex((data) => data.id === item.id)
-            console.log("isAdded=>,", isAdded)
+      useEffect(() => {
+        async function fetchData(){
+          const reference = collection(db, "cartitems")
+          const res = await getDocs(reference)
+          let items = [];
+            res.forEach((doc) => {
+              let obj = {
+                ...doc.data(),
+                dbId : doc.id,
+              }  
+              items.push(obj)
+            })
+            setCartItems(items)
+        }
+          fetchData()
+       } ,[])
 
+    const handleAddCartItem = useCallback(
+        async (item) => {          
+            const cartItemsArr = cartItems;
+            const isAdded = cartItemsArr.findIndex((data) => data.id === item.id)
             if (isAdded == -1) { 
-              cartItemsArr.push(item)          
+              cartItemsArr.push({...item, qty: 1})  
+              item.qty = 1  
               const ref = await addDoc(collection(db, "cartitems"), item);
+              setCartItems([...cartItemsArr])
+            }
+            else{ 
+              const reference = collection(db, "cartitems")
+              const res = await getDocs(reference)
+              let arr = [];
+                res.forEach((doc) => {
+                  let obj = {
+                    ...doc.data(),
+                    dbId : doc.id,
+                  }  
+                  arr.push(obj)
+                }) 
+                const findItem = arr.find(data => data.id === item.id)  
+                const ref = doc(db, "cartitems", findItem.dbId)
+                await updateDoc(ref, {
+                qty : findItem.qty + 1
+                })
+                cartItemsArr[isAdded].qty++
             }
             setCartItems([...cartItemsArr])
-            console.log(cartItemsArr)
         },
         [cartItems]
       )
@@ -61,9 +95,29 @@ export const CartItems = createContext()
 
      }
 
-    
+     async function updateToCart(dbId ,id, type) {
+      const arr = [...cartItems];
+      const itemObj = arr.find((data) => data.id == id);
+      const itemInd = arr.findIndex((data) => data.id == id);
+      if (type == "plus") {
+        const ref = doc(db, "cartitems", dbId)
+        await updateDoc(ref, {
+        qty : itemObj.qty + 1
+        })
+        arr[itemInd].qty++;
+      } else {
+        const ref = doc(db, "cartitems", dbId)
+        await updateDoc(ref, {
+        qty : itemObj.qty - 1
+        })
+        arr[itemInd].qty--;
+      }
+  
+      setCartItems([...arr]);
+    }
+
     return(
-        <CartItems.Provider value={{cartItems, setCartItems, handleAddCartItem, isCartAdded}}>{children}</CartItems.Provider>
+        <CartItems.Provider value={{cartItems, setCartItems, handleAddCartItem, isCartAdded, updateToCart }}>{children}</CartItems.Provider>
     )
 }
 
