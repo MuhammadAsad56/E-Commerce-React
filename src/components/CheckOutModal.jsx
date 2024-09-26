@@ -1,14 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {Modal, Input, Button, Form} from 'antd';
+import { Link } from 'react-router-dom';
 import { CartItems } from '../context/AuthContext';
+import { HeaderLinksContext } from '../context/AuthContext';
+
 const CheckOutModal = ({isModalOpen, handleOk,handleCancel, checkoutOrder}) => {
   const {authenticated} = useContext(CartItems)
+  const { headerLinks, setHeaderLinks } = useContext(HeaderLinksContext)
   const [continueAsGuest, setContinueAsGuest] = useState(false)
 
   useEffect(()=>{
     setContinueAsGuest(false)
   },[])
-  
+
   return (
     <>
       <Modal 
@@ -44,7 +48,9 @@ const CheckOutModal = ({isModalOpen, handleOk,handleCancel, checkoutOrder}) => {
         <h1 className="text-center text-xl my-5">
           Login to Save your Order's and See Progress
         </h1>
-        <Button type="primary" >Continue with Google</Button>
+        <Link to="/signin">
+        <Button onClick={() => setHeaderLinks("/signin")} type="primary">Continue to Login</Button>
+        </Link>
         <h1 className="text-center my-5">----- OR -----</h1>
         <Button onClick={() => setContinueAsGuest(true)}>
           Continue as a Guest

@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { auth } from "../utils/firebase"
 import { FaUserCircle } from "react-icons/fa";
+import { FaCartShopping } from "react-icons/fa6";
+import { Badge } from "antd";
 import { CartItems, HeaderLinksContext } from '../context/AuthContext'
 
 const Header = ({ userAuthenticated }) => {
@@ -28,7 +30,7 @@ const Header = ({ userAuthenticated }) => {
           <a className="flex m-0 title-font font-medium items-center text-gray-900 md:mb-0">
             <h2 className=" ml-3 text-2xl heading my-0">Shopping Bazar</h2>
           </a>
-          <nav className="md:ml-auto md:mr-auto flex flex-wrap  items-center text-base justify-center">
+          <nav className="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center gap-10">
             {headerLinks == "/home" ? ""
               :
               (
@@ -38,7 +40,9 @@ const Header = ({ userAuthenticated }) => {
                   <Link onClick={() => setHeaderLinks("/products")} to={"/products"} className={`mr-5 text-gray-800 ${headerLinks == "/products" && "border-b pb-2 text-lg border-b-red-400"}`}>Products</Link>
 
                   <Link onClick={handleShowProduct} to={"cartitems"} className={` cursor-pointer  text-gray-800 ${headerLinks == "/cartitems" && "border-b pb-2 text-lg border-b-red-400"}`}>
-                  Cart Items <sup>{cartItems.length}</sup>
+                  <Badge count={cartItems.length}>
+                  <FaCartShopping style={{fontSize: 25,}} className='text-sky-400'/> 
+                  </Badge>
                   </Link>
                 </>
               )
@@ -49,10 +53,9 @@ const Header = ({ userAuthenticated }) => {
               <div className='flex gap-3'>
                 {
                   userAuthenticated.photo ?
-                    <img className='h-8 w-auto rounded-full' src={userAuthenticated.photo} alt="#" />
+                    <img className='h-8 w-auto rounded-full' src={userAuthenticated.photo} alt="#"/>
                     :
-                    <FaUserCircle className='h-8 w-auto' />
-                    
+                    <FaUserCircle className='h-8 w-auto'/>  
                 } 
               </div>
               <div>
@@ -67,7 +70,7 @@ const Header = ({ userAuthenticated }) => {
                   </button>
                 </Link>
                 <Link to={"/signin"}>
-                  <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base md:mt-0">
+                  <button onClick={() => setHeaderLinks("/signin")} className="inline-flex items-center bg-sky-400 text-white border-0 py-1 px-3 focus:outline-none hover:bg-sky-500 rounded text-base md:mt-0">
                     Sign In
                   </button>
                 </Link>

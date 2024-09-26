@@ -41,23 +41,6 @@ function Products() {
       .catch((res) => setLoading(false))
   }, [])
 
-  // useEffect(() => {
-  //   async function fetchData(){
-  //     const reference = collection(db, "cartitems")
-  //     const res = await getDocs(reference)
-  //     let items = [];
-  //       res.forEach((doc) => {
-  //         let obj = {
-  //           ...doc.data(),
-  //           dbId : doc.id,
-  //         }  
-  //         items.push(obj)
-  //       })
-  //       setCartItems(items)
-  //   }
-  //     fetchData()
-  //  } ,[])
-
   return (
     <>
 
