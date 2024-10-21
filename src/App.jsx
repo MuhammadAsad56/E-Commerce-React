@@ -14,6 +14,8 @@ import { auth } from './utils/firebase'
 import CartItemSec from './pages/CartItemSec'
 import { CartProductContextProvider } from './context/AuthContext'
 import DashBoard from './pages/DashBoard'
+import AdminDashboard from './pages/AdminDashboard'
+import { CartContextProvider } from './context/CartContext'
 
 function App() {
   const [userAuthenticated, setUserAuthenticated] = useState(false)
@@ -35,11 +37,14 @@ function App() {
         {/* <CardAddedProvider> */}
           <HeaderLinksContextProvider>
             <CartProductContextProvider>
+              <CartContextProvider>
+
     <BrowserRouter>
     {/* <Header userAuthenticated={userAuthenticated}/> */}
     <Routes>
       <Route path='/'>
        <Route index element={<Home/>}/>
+       <Route path='admindashboard' element={<AdminDashboard/>}/>
        <Route path='signup' element={<SignUp/>}/>
        <Route path='signin' element={<SignIn/>}/>
       </Route>
@@ -50,6 +55,7 @@ function App() {
       </Route>
     </Routes>
     </BrowserRouter>
+              </CartContextProvider>
             </CartProductContextProvider>
           </HeaderLinksContextProvider>
         {/* </CardAddedProvider> */}

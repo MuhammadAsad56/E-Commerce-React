@@ -6,7 +6,7 @@ import { HeaderLinksContext } from '../context/AuthContext'
 const ProductsCard = ({ data, onclick, isCartAdded , handleRemoveCart}) => {
   const { brand, category, description, images, id,title } = data
   const { headerLinks, setHeaderLinks } = useContext(HeaderLinksContext)
-
+ 
   return (
     <>
       <div className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-md hover:shadow-sky-400">

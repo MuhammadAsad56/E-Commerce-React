@@ -1,11 +1,11 @@
-// import { createContext, useState } from "react";
 
 import React, { createContext, useState , useEffect, useCallback} from 'react'
 import { auth } from "../utils/firebase";
 import { db } from "../utils/firebase";
+import { useNavigate } from 'react-router-dom';
 import { addDoc, collection, doc, getDocs, updateDoc } from "firebase/firestore";
 
-
+// const navigate = useNavigate()
 export const AuthContext = createContext()
 
  export function AuthContextProvider({children}){
@@ -23,12 +23,19 @@ export const CartItems = createContext()
  export function CartItemsProvider({children}){
     const [cartItems, setCartItems] = useState([])
     const [authenticated, setAuthenticated] = useState(false)
+    const [adminAuthenticated, setAdminAuthenticated] = useState(false)
 
     useEffect(()=>{
         auth.onAuthStateChanged(user => {
-          if(user){
+          console.log(user);
+          if(user && user.email !== "asad@gmail.com"){
+            console.log("user email");   
             setAuthenticated(true)
-          }else{
+          }if(user.email === "asad@gmail.com"){
+            console.log("admin email", user);  
+            setAdminAuthenticated(true)
+          }
+          else{
             setAuthenticated(false)
           }
         })
@@ -117,7 +124,7 @@ export const CartItems = createContext()
     }
 
     return(
-        <CartItems.Provider value={{cartItems, setCartItems, handleAddCartItem, isCartAdded, updateToCart, authenticated }}>{children}</CartItems.Provider>
+        <CartItems.Provider value={{cartItems, setCartItems, handleAddCartItem, isCartAdded, updateToCart, authenticated, setAuthenticated, adminAuthenticated, setAdminAuthenticated }}>{children}</CartItems.Provider>
     )
 }
 

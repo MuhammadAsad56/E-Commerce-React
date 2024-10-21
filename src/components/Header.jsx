@@ -10,12 +10,18 @@ import { CartItems, HeaderLinksContext } from '../context/AuthContext'
 
 const Header = ({ userAuthenticated }) => {
 
-  const { cartItems, setCartItems } = useContext(CartItems)
+  const { cartItems, setCartItems} = useContext(CartItems)
+  const {authenticated, setAuthenticated} = useContext(CartItems)
+  const { adminAuthenticated, setAdminAuthenticated} = useContext(CartItems)
   const { headerLinks, setHeaderLinks } = useContext(HeaderLinksContext)
 
   const handlleSignOut = () => {
     signOut(auth)
-      .then(() => console.log("signOut"))
+      .then(() => {
+        console.log("signOut")
+        setAdminAuthenticated(false)
+        setAuthenticated(false)
+      })
       .catch((err) => alert(err.message))
   }
 
