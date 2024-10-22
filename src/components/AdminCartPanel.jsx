@@ -1,23 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { db } from '../utils/firebase';
+import { collection, getDoc, getDocs, or } from 'firebase/firestore';
+import OrderCard from './OrderCard';
+import Loading from './Loading';
 
 const AdminCartPanel = () => {
-  const cartItems = [
-    { id: 1, name: 'Product 1', quantity: 2 },
-    { id: 2, name: 'Product 2', quantity: 1 },
-  ];
+  const [orders, setOrders] = useState([])
+  const [ loading, setLoading] = useState(true)
 
-  return (
-    <div className="bg-white p-4 rounded shadow">
-      <h2 className="text-xl font-semibold mb-2">Cart Items</h2>
-      <ul>
-        {cartItems.map(item => (
-          <li key={item.id} className="flex justify-between border-b py-2">
-            <span>{item.name}</span>
-            <span>Quantity: {item.quantity}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
+  useEffect(() => {
+    async function fetchData() {
+        const reference = collection(db, "orders");
+        const res = await getDocs(reference);
+        const items = res.docs.map(doc => ({ ...doc.data(), dbId: doc.id }));
+        setOrders(items);
+        setLoading(false)
+    }
+    fetchData();
+}, []);
+
+
+     return (
+      // <h1>hi</h1>
+      <>
+      {loading ? <Loading/> :
+      <>
+       <div className="flex flex-wrap justify-center">
+            {orders.map(order => (
+              <OrderCard key={order.dbId} order={order} />
+            ))}
+        </div>
+      </>
+}
+</>
   );
 };
 

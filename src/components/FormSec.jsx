@@ -88,7 +88,10 @@ const FormSec = ({ namefield, text, onclick, errMessage, onClick, num, headerLin
           <div className='flex gap-3'>
             <p className=' font-semibold text-gray-200'>Don't have an account:</p>
             <span className='text-sky-400'><Link to="/signup">Create account</Link></span>
-
+          </div>
+          <div className='text-md mt-2'>
+          <p>Admin Email: asad@gmail.com</p>
+          <p>password: 123456</p>
           </div>
         </div>
       )}

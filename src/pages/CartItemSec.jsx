@@ -48,6 +48,7 @@ const CartItemSec = () => {
 
   let totalRs = cartItems.reduce((acc, items) => acc + items.qty * items.price, 0)
       totalRs = Math.round(totalRs)
+      
   const checkoutOrder = async (values) => {
       const checkoutObj = {
          ...values,

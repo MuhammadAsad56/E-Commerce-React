@@ -13,16 +13,16 @@ function AdminDashboard() {
         <button onClick={() => setActiveTab('products')} className="bg-blue-500 text-white p-2 rounded">
           Products
         </button>
-        <button onClick={() => setActiveTab('cart')} className="bg-blue-500 text-white p-2 rounded">
-          Cart
-        </button>
         <button onClick={() => setActiveTab('addProduct')} className="bg-blue-500 text-white p-2 rounded">
           Add Product
+        </button>
+        <button onClick={() => setActiveTab('showOrders')} className="bg-blue-500 text-white p-2 rounded">
+          Show Orders
         </button>
       </div>
 
       {activeTab === 'products' && <AdminProducts />}
-      {activeTab === 'cart' && <AdminCartPanel />}
+      {activeTab === 'showOrders' && <AdminCartPanel />}
       {activeTab === 'addProduct' && <AdminAddproduct />}
     </div>
   );
