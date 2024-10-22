@@ -8,7 +8,7 @@ const CheckOutModal = ({isModalOpen, handleOk,handleCancel, checkoutOrder}) => {
   const {authenticated} = useContext(CartItems)
   const { headerLinks, setHeaderLinks } = useContext(HeaderLinksContext)
   const [continueAsGuest, setContinueAsGuest] = useState(false)
-  
+  console.log('authenticated',authenticated)
   
   useEffect(()=>{
     setContinueAsGuest(false)

@@ -1,5 +1,5 @@
 
-import React, { createContext, useState , useEffect, useCallback} from 'react'
+import React, { createContext, useState , useEffect, useCallback, useContext} from 'react'
 import { auth } from "../utils/firebase";
 import { db } from "../utils/firebase";
 import { useNavigate } from 'react-router-dom';
@@ -25,22 +25,26 @@ export const CartItems = createContext()
     const [authenticated, setAuthenticated] = useState(false)
     const [adminAuthenticated, setAdminAuthenticated] = useState(false)
 
+    // const {setAuthenticated,setAdminAuthenticated,adminAuthenticated} = useCartItems()
     useEffect(()=>{
-        auth.onAuthStateChanged(user => {
-          console.log(user);
-          if(user && user.email !== "asad@gmail.com"){
-            console.log("user email");   
-            setAuthenticated(true)
-          }if(user.email === "asad@gmail.com"){
-            console.log("admin email", user);  
-            setAdminAuthenticated(true)
-          }
-          else{
-            setAuthenticated(false)
-          }
-        })
-      },[])
+      auth.onAuthStateChanged((user) => {
+        if(user)
+        console.log('user',user);
+        if(user && user.email !== "asad@gmail.com"){
+          console.log("user email",user.email);   
+          setAuthenticated(true)
+        }if(user.email === "asad@gmail.com"){
+          console.log("admin email", user);  
+          setAdminAuthenticated(true)
+          console.log('adminAuthenticated',adminAuthenticated)
+        }
+        else{
+          // setAuthenticated(false)
+        }
+      })
+    },[])  
 
+      console.log('authenticated in context ',authenticated)
       useEffect(() => {
         async function fetchData(){
           const reference = collection(db, "cartitems")
@@ -127,7 +131,9 @@ export const CartItems = createContext()
         <CartItems.Provider value={{cartItems, setCartItems, handleAddCartItem, isCartAdded, updateToCart, authenticated, setAuthenticated, adminAuthenticated, setAdminAuthenticated }}>{children}</CartItems.Provider>
     )
 }
-
+export function useCartItems (){
+  return useContext(CartItems)
+}
 // export const CardAdded = createContext()
 
 //  export function CardAddedProvider({children}){

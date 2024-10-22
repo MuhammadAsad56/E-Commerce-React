@@ -20,7 +20,6 @@ function Products() {
   const {cartItems, setCartItems, handleAddCartItem, isCartAdded} = useContext(CartItems)
   const navigate = useNavigate()
   const {updatedProducts, setUpdatedProducts} = useContext(CartContext)
-  // console.log("updatedProducts" , updatedProducts);
 
   useEffect(() => {
     const url = chosenCategory == "All" ? 'https://dummyjson.com/products' : `https://dummyjson.com/products/category/${chosenCategory}`
