@@ -70,11 +70,11 @@ const Header = ({ userAuthenticated }) => {
             </div>
             : (
               <>
-                <Link to={"/signup"}>
+                {/* <Link to={"/signup"}>
                   <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base md:mt-0">
                     Sign Up
                   </button>
-                </Link>
+                </Link> */}
                 <Link to={"/signin"}>
                   <button onClick={() => setHeaderLinks("/signin")} className="inline-flex items-center bg-sky-400 text-white border-0 py-1 px-3 focus:outline-none hover:bg-sky-500 rounded text-base md:mt-0">
                     Sign In

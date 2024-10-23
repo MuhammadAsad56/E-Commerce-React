@@ -25,7 +25,6 @@ export const CartItems = createContext()
     const [authenticated, setAuthenticated] = useState(false)
     const [adminAuthenticated, setAdminAuthenticated] = useState(false)
 
-    // const {setAuthenticated,setAdminAuthenticated,adminAuthenticated} = useCartItems()
     useEffect(()=>{
       auth.onAuthStateChanged((user) => {
         if(user)
@@ -44,7 +43,6 @@ export const CartItems = createContext()
       })
     },[])  
 
-      console.log('authenticated in context ',authenticated)
       useEffect(() => {
         async function fetchData(){
           const reference = collection(db, "cartitems")
